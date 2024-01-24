@@ -1,4 +1,7 @@
+import 'package:easy_do_app/screens/details_task.dart';
+import 'package:easy_do_app/screens/new_task.dart';
 import 'package:easy_do_app/utils/colors.dart';
+import 'package:easy_do_app/widgets/custom_action_button.dart';
 import 'package:easy_do_app/widgets/home_appbar.dart';
 import 'package:easy_do_app/widgets/task_for_day.dart';
 import 'package:easy_do_app/widgets/task_summary.dart';
@@ -52,18 +55,40 @@ class Home extends StatelessWidget {
                   ),
                   SizedBox(height: height * .01),
                   Expanded(
-                      child: TaskForDay(
-                    date: "28 JAN 2024",
-                    details:
-                        "Squats: 3 sets of 12 repsPush-ups: 3 sets of 15 repsBent-over Rows: 3 sets of 12 reps (use dumbbells or a barbell)Plank: 3 sets, hold for 30 seconds eachLunges: 3 sets of 10 reps per leg",
-                    title: "Mentorship Session",
-                  )),
+                      child: ListView.separated(
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DetailsTask(
+                                            title: 'Mentorship Session',
+                                            description:
+                                                "Squats: 3 sets of 12 repsPush-ups: 3 sets of 15 repsBent-over Rows: 3 sets of 12 reps (use dumbbells or a barbell)Plank: 3 sets, hold for 30 seconds eachLunges: 3 sets of 10 reps per leg",
+                                            date: "28 JAN 2024",
+                                            isCompleted: false,
+                                          ))),
+                              child: TaskForDay(
+                                title: "Mentorship Session",
+                                date: "28 JAN 2024",
+                                details:
+                                    "Squats: 3 sets of 12 repsPush-ups: 3 sets of 15 repsBent-over Rows: 3 sets of 12 reps (use dumbbells or a barbell)Plank: 3 sets, hold for 30 seconds eachLunges: 3 sets of 10 reps per leg",
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) =>
+                              SizedBox(height: 15),
+                          itemCount: 30)),
                 ],
               ),
             ),
           ],
         ),
       ),
+      floatingActionButton: InkWell(
+          onTap: () => Navigator.push(
+              context, MaterialPageRoute(builder: (context) => NewTask())),
+          child: CustomActionButton()),
     );
   }
 }
