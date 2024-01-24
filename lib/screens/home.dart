@@ -51,7 +51,13 @@ class Home extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: height * .01),
-                  Expanded(child: TaskForDay()),
+                  Expanded(
+                      child: TaskForDay(
+                    date: "28 JAN 2024",
+                    details:
+                        "Squats: 3 sets of 12 repsPush-ups: 3 sets of 15 repsBent-over Rows: 3 sets of 12 reps (use dumbbells or a barbell)Plank: 3 sets, hold for 30 seconds eachLunges: 3 sets of 10 reps per leg",
+                    title: "Mentorship Session",
+                  )),
                 ],
               ),
             ),
