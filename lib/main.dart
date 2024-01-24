@@ -1,5 +1,6 @@
 import 'package:easy_do_app/screens/home.dart';
 import 'package:easy_do_app/screens/splash_screen.dart';
+import 'package:easy_do_app/widgets/custom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: Home(),
+      home: CustomBottomNavigationBar(),
     );
   }
 }
