@@ -1,3 +1,5 @@
+import 'package:easy_do_app/screens/auth/sign_in.dart';
+import 'package:easy_do_app/services/auth_services.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatelessWidget {
@@ -25,14 +27,45 @@ class Profile extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 8),
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8)),
-                child: ListTile(
-                  leading: Icon(Icons.power_settings_new_outlined,
-                      color: Colors.red),
-                  title: Text("Log Out"),
+              InkWell(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text('Are you sure?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, 'Cancel'),
+                          child: const Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            AuthProvider().signOut();
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SignIn()));
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SignIn()));
+                          },
+                          child: const Text('Logout'),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8)),
+                  child: ListTile(
+                    leading: Icon(Icons.power_settings_new_outlined,
+                        color: Colors.red),
+                    title: Text("Log Out"),
+                  ),
                 ),
               ),
               SizedBox(height: 15),
