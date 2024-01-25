@@ -89,6 +89,53 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  Future<Map<String, dynamic>> signUp(
+      String name, String email, String password) async {
+    String url = BASE_URL + REGISTER;
+
+    try {
+      var response = await http.post(Uri.parse(url),
+          headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: jsonEncode(
+            {
+              "name": name,
+              "email": email,
+              "password": password,
+            },
+          ));
+
+      print("res " + response.statusCode.toString());
+
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        final Map<String, dynamic> responseData = jsonDecode(response.body);
+        _authToken = responseData['token'];
+        _userData = responseData['user'];
+
+        await _saveAuthToken(_authToken!);
+        await _saveUserData(_userData!);
+
+        notifyListeners();
+
+        print(responseData);
+
+        return {'success': true, 'data': responseData};
+      } else {
+        // print(response.statusCode);
+        throw Exception('Failed to register');
+      }
+    } catch (e) {
+      print('Error: $e');
+
+      return {
+        'success': false,
+        'error': 'Failed to Register in. Please try again.'
+      };
+    }
+  }
+
   Future signOut() async {
     _authToken = null;
     _userData = null;
