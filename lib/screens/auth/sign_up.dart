@@ -21,84 +21,87 @@ class SignUp extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: BACKGROUND_COLOR,
-      body: ListView(children: [
-        Stack(
-          children: [
-            CustomAppBar(),
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => SignIn()));
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(top: 16.0, left: 12.0),
-                child: CircleAvatar(
-                  backgroundColor: Color(0xffDEEAFC),
-                  maxRadius: 25,
-                  minRadius: 10,
-                  child: Icon(Icons.arrow_back_ios, size: 20),
-                ),
-              ),
-            )
-          ],
-        ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 18),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      body: SingleChildScrollView(
+        child: Column(children: [
+          SizedBox(height: MediaQuery.of(context).viewInsets.top),
+          Stack(
             children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "Sign up",
-                  style: GoogleFonts.manrope(
-                    textStyle: TextStyle(
-                        color: TEXT_ACCENT_COLOR,
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold),
+              CustomAppBar(),
+              InkWell(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SignIn()));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 16.0, left: 12.0),
+                  child: CircleAvatar(
+                    backgroundColor: Color(0xffDEEAFC),
+                    maxRadius: 25,
+                    minRadius: 10,
+                    child: Icon(Icons.arrow_back_ios, size: 20),
                   ),
                 ),
-              ),
-              SizedBox(height: height * .04),
-              Text(
-                "Name",
-              ),
-              SizedBox(height: height * .01),
-              customTextField(nameController,
-                  label: "Type name here...", validator: "Please enter name"),
-              SizedBox(height: height * .04),
-              Text(
-                "Email",
-              ),
-              SizedBox(height: height * .01),
-              customTextField(emailController,
-                  textInputType: TextInputType.emailAddress,
-                  label: "Type email here...",
-                  validator: "Please enter email"),
-              SizedBox(height: height * .04),
-              Text(
-                "Password",
-              ),
-              SizedBox(height: height * .01),
-              customTextField(passwordController,
-                  isObscure: true,
-                  label: "Type password here...",
-                  validator: "Please enter password"),
-              SizedBox(height: height * .04),
-              Text(
-                "Retype Password",
-              ),
-              SizedBox(height: height * .01),
-              customTextField(confirmPasswordController,
-                  isObscure: true,
-                  label: "Type password here...",
-                  validator: "Please retype password"),
-              SizedBox(height: height * .04),
-              PrimaryButton(name: "Sign up"),
+              )
             ],
           ),
-        ),
-      ]),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 18),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "Sign up",
+                    style: GoogleFonts.manrope(
+                      textStyle: TextStyle(
+                          color: TEXT_ACCENT_COLOR,
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                SizedBox(height: height * .04),
+                Text(
+                  "Name",
+                ),
+                SizedBox(height: height * .01),
+                customTextField(nameController,
+                    label: "Type name here...", validator: "Please enter name"),
+                SizedBox(height: height * .04),
+                Text(
+                  "Email",
+                ),
+                SizedBox(height: height * .01),
+                customTextField(emailController,
+                    textInputType: TextInputType.emailAddress,
+                    label: "Type email here...",
+                    validator: "Please enter email"),
+                SizedBox(height: height * .04),
+                Text(
+                  "Password",
+                ),
+                SizedBox(height: height * .01),
+                customTextField(passwordController,
+                    isObscure: true,
+                    label: "Type password here...",
+                    validator: "Please enter password"),
+                SizedBox(height: height * .04),
+                Text(
+                  "Retype Password",
+                ),
+                SizedBox(height: height * .01),
+                customTextField(confirmPasswordController,
+                    isObscure: true,
+                    label: "Type password here...",
+                    validator: "Please retype password"),
+                SizedBox(height: height * .04),
+                PrimaryButton(name: "Sign up"),
+              ],
+            ),
+          ),
+        ]),
+      ),
     );
   }
 
