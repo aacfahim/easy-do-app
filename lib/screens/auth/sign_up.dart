@@ -1,9 +1,12 @@
 import 'package:easy_do_app/screens/auth/sign_in.dart';
 import 'package:easy_do_app/screens/auth/sign_up.dart';
+import 'package:easy_do_app/services/auth_services.dart';
 import 'package:easy_do_app/widgets/appbar.dart';
+import 'package:easy_do_app/widgets/custom_navbar.dart';
 import 'package:easy_do_app/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import '../../utils/colors.dart';
 
@@ -14,6 +17,7 @@ class SignUp extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -44,60 +48,101 @@ class SignUp extends StatelessWidget {
               )
             ],
           ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 18),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "Sign up",
-                    style: GoogleFonts.manrope(
-                      textStyle: TextStyle(
-                          color: TEXT_ACCENT_COLOR,
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold),
+          Form(
+            key: _formKey,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 18),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Sign up",
+                      style: GoogleFonts.manrope(
+                        textStyle: TextStyle(
+                            color: TEXT_ACCENT_COLOR,
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: height * .04),
-                Text(
-                  "Name",
-                ),
-                SizedBox(height: height * .01),
-                customTextField(nameController,
-                    label: "Type name here...", validator: "Please enter name"),
-                SizedBox(height: height * .04),
-                Text(
-                  "Email",
-                ),
-                SizedBox(height: height * .01),
-                customTextField(emailController,
-                    textInputType: TextInputType.emailAddress,
-                    label: "Type email here...",
-                    validator: "Please enter email"),
-                SizedBox(height: height * .04),
-                Text(
-                  "Password",
-                ),
-                SizedBox(height: height * .01),
-                customTextField(passwordController,
-                    isObscure: true,
-                    label: "Type password here...",
-                    validator: "Please enter password"),
-                SizedBox(height: height * .04),
-                Text(
-                  "Retype Password",
-                ),
-                SizedBox(height: height * .01),
-                customTextField(confirmPasswordController,
-                    isObscure: true,
-                    label: "Type password here...",
-                    validator: "Please retype password"),
-                SizedBox(height: height * .04),
-                PrimaryButton(name: "Sign up"),
-              ],
+                  SizedBox(height: height * .04),
+                  Text(
+                    "Name",
+                  ),
+                  SizedBox(height: height * .01),
+                  customTextField(nameController,
+                      label: "Type name here...",
+                      validator: "Please enter name"),
+                  SizedBox(height: height * .04),
+                  Text(
+                    "Email",
+                  ),
+                  SizedBox(height: height * .01),
+                  customTextField(emailController,
+                      textInputType: TextInputType.emailAddress,
+                      label: "Type email here...",
+                      validator: "Please enter email"),
+                  SizedBox(height: height * .04),
+                  Text(
+                    "Password",
+                  ),
+                  SizedBox(height: height * .01),
+                  customTextField(passwordController,
+                      isObscure: true,
+                      label: "Type password here...",
+                      validator: "Please enter password"),
+                  SizedBox(height: height * .04),
+                  Text(
+                    "Retype Password",
+                  ),
+                  SizedBox(height: height * .01),
+                  customTextField(confirmPasswordController,
+                      isObscure: true,
+                      label: "Type password here...",
+                      validator: "Please retype password"),
+                  SizedBox(height: height * .04),
+                  Consumer<AuthProvider>(
+                    builder: (context, authProvider, child) {
+                      return InkWell(
+                        onTap: () async {
+                          if (_formKey.currentState!.validate()) {
+                            authProvider.setLoading(true);
+
+                            final result = await authProvider.signUp(
+                              nameController.text,
+                              emailController.text,
+                              passwordController.text,
+                            );
+
+                            authProvider.setLoading(false);
+
+                            if (result['success']) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      CustomBottomNavigationBar(),
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(result['error']),
+                                ),
+                              );
+                            }
+                          }
+                        },
+                        child: authProvider.isLoading
+                            ? Center(child: CircularProgressIndicator())
+                            : PrimaryButton(name: "Sign up"),
+                      );
+                    },
+                  )
+                ],
+              ),
             ),
           ),
         ]),
@@ -137,6 +182,7 @@ class SignUp extends StatelessWidget {
         if (value!.isEmpty) {
           return validator;
         }
+
         return null;
       },
     );
