@@ -2,8 +2,32 @@ import 'package:easy_do_app/screens/auth/sign_in.dart';
 import 'package:easy_do_app/services/auth_services.dart';
 import 'package:flutter/material.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   const Profile({super.key});
+
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  String? name;
+
+  String? email;
+
+  getUserData() async {
+    AuthProvider authProvider = AuthProvider();
+    await authProvider.init();
+
+    name = await authProvider.userData!['name'];
+    email = await authProvider.userData!['email'];
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getUserData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +45,8 @@ class Profile extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8)),
                 child: ListTile(
                   leading: CircleAvatar(),
-                  title: Text("John Doe"),
-                  subtitle: Text("johndoe@gmail.com"),
+                  title: Text(name.toString()),
+                  subtitle: Text(email.toString()),
                   trailing: Icon(Icons.arrow_forward_ios),
                 ),
               ),
