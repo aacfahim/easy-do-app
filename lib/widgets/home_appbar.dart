@@ -8,6 +8,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: BACKGROUND_COLOR,
         elevation: 0,
         title: ListTile(
