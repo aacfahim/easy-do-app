@@ -2,6 +2,7 @@ import 'package:easy_do_app/screens/auth/sign_in.dart';
 import 'package:easy_do_app/screens/home.dart';
 import 'package:easy_do_app/screens/splash_screen.dart';
 import 'package:easy_do_app/services/auth_services.dart';
+import 'package:easy_do_app/services/task_services.dart';
 import 'package:easy_do_app/widgets/custom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => AuthProvider(),
         ),
+        ChangeNotifierProvider(create: (_) => TaskServices()),
       ],
       child: MaterialApp(
         theme: ThemeData(
