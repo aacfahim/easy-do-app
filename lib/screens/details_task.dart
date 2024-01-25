@@ -25,13 +25,13 @@ class DetailsTask extends StatelessWidget {
         subtitle: Row(children: [
           Icon(Icons.watch_later_outlined, size: 18),
           SizedBox(width: 5),
-          Text("28 JAN 2024"),
+          Text(date.toString()),
           SizedBox(width: 5),
-          isCompleted!
+          isCompleted
               ? SvgPicture.asset("assets/task_complete.svg")
               : SvgPicture.asset("assets/task_incomplete.svg")
         ]),
-        trailing: isCompleted!
+        trailing: isCompleted
             ? SvgPicture.asset("assets/checked.svg")
             : SvgPicture.asset("assets/unchecked.svg"),
       )),
