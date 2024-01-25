@@ -7,13 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  AuthProvider authProvider = AuthProvider();
+  await authProvider.init();
+
+  runApp(MyApp(authProvider: authProvider));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.authProvider});
+  final AuthProvider authProvider;
 
   // This widget is the root of your application.
   @override
@@ -32,7 +36,9 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         debugShowCheckedModeBanner: false,
-        home: SignIn(),
+        home: authProvider.authToken != null
+            ? CustomBottomNavigationBar()
+            : SignIn(),
       ),
     );
   }
