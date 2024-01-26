@@ -119,6 +119,11 @@ class SignUp extends StatelessWidget {
                             authProvider.setLoading(false);
 
                             if (result['success']) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text("Registration Successful"),
+                                ),
+                              );
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
