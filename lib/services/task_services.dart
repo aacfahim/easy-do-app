@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:easy_do_app/model/all_task_model.dart';
+import 'package:easy_do_app/services/task_notifier.dart';
+
 import 'package:flutter/material.dart';
 import 'package:easy_do_app/services/auth_services.dart';
 import 'package:easy_do_app/utils/urls.dart';
@@ -12,7 +14,7 @@ class TaskServices extends ChangeNotifier {
   Future<List<AllTaskDataModel>> getAllTasks() async {
     List<AllTaskDataModel> tasks = [];
 
-    String url = BASE_URL + GET_ALL_TASK;
+    String url = BASE_URL + TASK;
 
     AuthProvider authProvider = AuthProvider();
     await authProvider.init();
@@ -54,8 +56,103 @@ class TaskServices extends ChangeNotifier {
     }
   }
 
+  Future<bool> addTask(String title, String date, String description) async {
+    String url = BASE_URL + TASK;
+
+    AuthProvider authProvider = AuthProvider();
+    await authProvider.init();
+
+    String? token = authProvider.authToken;
+
+    print(title);
+    print(date);
+    print(description);
+
+    var response = await http.post(Uri.parse(url),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(
+          {
+            "title": title,
+            "description": description,
+            "dueDate": date,
+          },
+        ));
+
+    var data = jsonDecode(response.body);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print(data);
+      return data['success'];
+    } else {
+      print(data);
+
+      return false;
+    }
+  }
+
+  Future deleteTask(String id) async {
+    String url = BASE_URL + TASK + "/$id";
+
+    AuthProvider authProvider = AuthProvider();
+    await authProvider.init();
+
+    String? token = authProvider.authToken;
+
+    var response = await http.delete(
+      Uri.parse(url),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    var data = jsonDecode(response.body);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print(data);
+      return data['success'];
+    } else {
+      print(data);
+
+      return false;
+    }
+  }
+
+  Future updateTask(String id, bool completed, String description) async {
+    String url = BASE_URL + TASK + "/$id";
+
+    AuthProvider authProvider = AuthProvider();
+    await authProvider.init();
+
+    String? token = authProvider.authToken;
+
+    var response = await http.put(Uri.parse(url),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          "completed": completed,
+          "description": description,
+        }));
+
+    var data = jsonDecode(response.body);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print(data);
+      return data['success'];
+    } else {
+      print(data);
+
+      return false;
+    }
+  }
+
   Future getTaskStatus(bool isCompleted) async {
-    final baseUrl = BASE_URL + GET_ALL_TASK;
+    final baseUrl = BASE_URL + TASK;
     AuthProvider authProvider = AuthProvider();
     await authProvider.init();
 
