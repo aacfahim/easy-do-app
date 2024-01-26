@@ -34,7 +34,7 @@ class TaskSummary extends StatelessWidget {
                           ),
                         );
                       } else {
-                        return Center(child: CircularProgressIndicator());
+                        return Center(child: Text(""));
                       }
                     },
                   ),
@@ -68,7 +68,7 @@ class TaskSummary extends StatelessWidget {
                           ),
                         );
                       } else {
-                        return Center(child: CircularProgressIndicator());
+                        return Center(child: Text(""));
                       }
                     },
                   ),
