@@ -7,24 +7,26 @@ class TaskForDay extends StatelessWidget {
     super.key,
     required this.date,
     required this.details,
-    this.isChecked = false,
     this.isCompleted = false,
     required this.title,
   });
   String title;
   String date;
   String details;
-  bool isChecked;
+
   bool isCompleted;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.only(top: 10),
       height: MediaQuery.of(context).size.height * .18,
       width: double.maxFinite,
       decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(12)),
+          border: Border.all(
+              color: isCompleted ? Colors.green : Colors.transparent),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12)),
       child: Column(children: [
         ListTile(
             title: Text(
@@ -40,7 +42,7 @@ class TaskForDay extends StatelessWidget {
                   ? SvgPicture.asset("assets/task_complete.svg")
                   : SvgPicture.asset("assets/task_incomplete.svg")
             ]),
-            trailing: isChecked
+            trailing: isCompleted
                 ? SvgPicture.asset("assets/checked.svg")
                 : SvgPicture.asset("assets/unchecked.svg")),
         Padding(
