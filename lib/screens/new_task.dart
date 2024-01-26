@@ -1,3 +1,5 @@
+import 'package:easy_do_app/services/task_services.dart';
+import 'package:easy_do_app/utils/common.dart';
 import 'package:easy_do_app/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +8,7 @@ class NewTask extends StatelessWidget {
   TextEditingController titleController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   Future selectDate(BuildContext context) async {
     DateTime? picked = await showDatePicker(
@@ -15,8 +18,14 @@ class NewTask extends StatelessWidget {
       lastDate: DateTime(2101),
     );
     if (picked != null && picked != DateTime.now()) {
-      dateController.text = "${picked.day}/${picked.month}/${picked.year}";
+      dateController.text = "${picked.year}/${picked.month}/${picked.day}";
     }
+  }
+
+  clearFields() {
+    titleController.clear();
+    dateController.clear();
+    descriptionController.clear();
   }
 
   @override
@@ -30,8 +39,8 @@ class NewTask extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Container(
-            height: MediaQuery.of(context).size.height,
+          child: Form(
+            key: _formKey,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(
@@ -81,7 +90,7 @@ class NewTask extends StatelessWidget {
                   suffixIcon: Icon(Icons.calendar_today, color: Colors.grey),
                   filled: true,
                   fillColor: Colors.white,
-                  labelText: "dd/mm/yyyy",
+                  labelText: "yyyy/mm/dd",
                   labelStyle: TextStyle(
                     fontSize: 14,
                     color: Color(0xffE9E9E9),
@@ -133,7 +142,24 @@ class NewTask extends StatelessWidget {
                 ),
               ),
               SizedBox(height: height * .23),
-              PrimaryButton(name: "Create Task"),
+              InkWell(
+                  onTap: () async {
+                    if (_formKey.currentState!.validate()) {
+                      final result = await TaskServices().addTask(
+                          titleController.text,
+                          dateController.text,
+                          descriptionController.text);
+
+                      if (result) {
+                        showSnackbar(context, "Task Added");
+                        clearFields();
+                      } else {
+                        showSnackbar(
+                            context, "Something went wrong, please try again");
+                      }
+                    }
+                  },
+                  child: PrimaryButton(name: "Create Task")),
             ]),
           ),
         ),
