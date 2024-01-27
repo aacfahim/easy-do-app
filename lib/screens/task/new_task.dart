@@ -1,7 +1,9 @@
+import 'package:easy_do_app/services/task_notifier.dart';
 import 'package:easy_do_app/services/task_services.dart';
 import 'package:easy_do_app/utils/common.dart';
 import 'package:easy_do_app/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NewTask extends StatelessWidget {
   NewTask({super.key});
@@ -153,6 +155,8 @@ class NewTask extends StatelessWidget {
                       if (result) {
                         showSnackbar(context, "Task Added");
                         clearFields();
+                        Provider.of<TaskNotifier>(context, listen: false)
+                            .setShouldReload(true);
                       } else {
                         showSnackbar(
                             context, "Something went wrong, please try again");

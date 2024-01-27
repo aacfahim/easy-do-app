@@ -1,4 +1,4 @@
-import 'package:easy_do_app/screens/home.dart';
+import 'package:easy_do_app/screens/task/home.dart';
 import 'package:easy_do_app/screens/user/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
