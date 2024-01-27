@@ -15,6 +15,7 @@ class CustomBottomNavigationBar extends StatefulWidget {
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   late PageController _pageController;
   int _currentIndex = 0;
+  bool _mounted = true;
 
   @override
   void initState() {
@@ -25,20 +26,22 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   @override
   void dispose() {
     _pageController.dispose();
+    _mounted = false;
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: _pageController,
         onPageChanged: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
+          if (_mounted && _pageController.hasClients) {
+            setState(() {
+              _currentIndex = index;
+            });
+          }
         },
         children: [Home(), Tasks(), Profile()],
       ),
