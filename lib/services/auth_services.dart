@@ -26,7 +26,7 @@ class AuthProvider extends ChangeNotifier {
     prefs.setString('authToken', token);
   }
 
-  Future _saveUserData(Map<String, dynamic> userData) async {
+  Future saveUserData(Map<String, dynamic> userData) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('userData', json.encode(userData));
   }
@@ -68,7 +68,7 @@ class AuthProvider extends ChangeNotifier {
         _userData = responseData['user'];
 
         await _saveAuthToken(_authToken!);
-        await _saveUserData(_userData!);
+        await saveUserData(_userData!);
 
         notifyListeners();
 
@@ -115,7 +115,7 @@ class AuthProvider extends ChangeNotifier {
         _userData = responseData['user'];
 
         await _saveAuthToken(_authToken!);
-        await _saveUserData(_userData!);
+        await saveUserData(_userData!);
 
         notifyListeners();
 
