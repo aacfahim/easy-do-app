@@ -1,6 +1,7 @@
 import 'package:easy_do_app/screens/home.dart';
 import 'package:easy_do_app/screens/user/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   CustomBottomNavigationBar({super.key});
@@ -71,11 +72,13 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               },
               items: [
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
+                  icon: Icon(Icons.home_outlined),
+                  activeIcon: SvgPicture.asset("assets/House.svg"),
                   label: 'Home',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.assignment),
+                  icon: Icon(Icons.dashboard_outlined),
+                  activeIcon: SvgPicture.asset("assets/SquaresFour.svg"),
                   label: 'Tasks',
                 ),
                 BottomNavigationBarItem(
