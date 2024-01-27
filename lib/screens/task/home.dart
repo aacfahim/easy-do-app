@@ -144,7 +144,7 @@ class _HomeState extends State<Home> {
                                         ),
                                       );
                                     } else {
-                                      return SizedBox.shrink();
+                                      return SizedBox();
                                     }
                                   },
                                   separatorBuilder: (context, index) =>
