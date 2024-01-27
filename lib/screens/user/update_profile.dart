@@ -9,14 +9,22 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class UpdateProfile extends StatelessWidget {
+class UpdateProfile extends StatefulWidget {
   UpdateProfile({super.key, required this.name, required this.email});
   String name;
   String email;
+
+  @override
+  State<UpdateProfile> createState() => _UpdateProfileState();
+}
+
+class _UpdateProfileState extends State<UpdateProfile> {
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController nameController = TextEditingController();
+
   TextEditingController emailController = TextEditingController();
+
   TextEditingController ageController = TextEditingController();
 
   @override
@@ -24,9 +32,9 @@ class UpdateProfile extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    nameController.text = name;
+    nameController.text = widget.name;
 
-    emailController.text = email;
+    emailController.text = widget.email;
 
     return Scaffold(
       backgroundColor: BACKGROUND_COLOR,
