@@ -48,7 +48,8 @@ class _ProfileState extends State<Profile> {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => UpdateProfile(),
+                      builder: (context) =>
+                          UpdateProfile(name: name!, email: email!),
                     ),
                   ),
                   child: ListTile(

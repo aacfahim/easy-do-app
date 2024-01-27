@@ -10,7 +10,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class UpdateProfile extends StatelessWidget {
-  UpdateProfile({super.key});
+  UpdateProfile({super.key, required this.name, required this.email});
+  String name;
+  String email;
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController nameController = TextEditingController();
@@ -21,6 +23,10 @@ class UpdateProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+
+    nameController.text = name;
+
+    emailController.text = email;
 
     return Scaffold(
       backgroundColor: BACKGROUND_COLOR,
