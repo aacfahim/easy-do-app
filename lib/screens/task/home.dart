@@ -28,6 +28,16 @@ class _HomeState extends State<Home> {
     return formattedDate;
   }
 
+  String currentDate() {
+    var now = new DateTime.now();
+    var formatter = new DateFormat('dd MMM yyyy');
+    String formattedDate = formatter.format(now).toUpperCase();
+
+    return formattedDate;
+  }
+
+  bool hasTasksForToday = false;
+
   @override
   Widget build(BuildContext context) {
     return Consumer<TaskNotifier>(
@@ -106,31 +116,36 @@ class _HomeState extends State<Home> {
                                     String formattedDate =
                                         formatDate(originalDate);
 
-                                    return GestureDetector(
-                                      onTap: () => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => DetailsTask(
-                                            id: tasks[index].sId.toString(),
-                                            title:
-                                                tasks[index].title.toString(),
-                                            description: tasks[index]
-                                                .description
-                                                .toString(),
-                                            date: formattedDate,
-                                            isCompleted:
-                                                tasks[index].completed!,
+                                    if (formattedDate == currentDate()) {
+                                      return GestureDetector(
+                                        onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => DetailsTask(
+                                              id: tasks[index].sId.toString(),
+                                              title:
+                                                  tasks[index].title.toString(),
+                                              description: tasks[index]
+                                                  .description
+                                                  .toString(),
+                                              date: formattedDate,
+                                              isCompleted:
+                                                  tasks[index].completed!,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      child: TaskForDay(
-                                        title: tasks[index].title.toString(),
-                                        date: formattedDate,
-                                        details:
-                                            tasks[index].description.toString(),
-                                        isCompleted: tasks[index].completed!,
-                                      ),
-                                    );
+                                        child: TaskForDay(
+                                          title: tasks[index].title.toString(),
+                                          date: formattedDate,
+                                          details: tasks[index]
+                                              .description
+                                              .toString(),
+                                          isCompleted: tasks[index].completed!,
+                                        ),
+                                      );
+                                    } else {
+                                      return SizedBox.shrink();
+                                    }
                                   },
                                   separatorBuilder: (context, index) =>
                                       SizedBox(height: 15),
