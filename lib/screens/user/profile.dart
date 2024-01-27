@@ -1,4 +1,5 @@
 import 'package:easy_do_app/screens/auth/sign_in.dart';
+import 'package:easy_do_app/screens/user/update_profile.dart';
 import 'package:easy_do_app/services/auth_services.dart';
 import 'package:flutter/material.dart';
 
@@ -18,8 +19,8 @@ class _ProfileState extends State<Profile> {
     AuthProvider authProvider = AuthProvider();
     await authProvider.init();
 
-    name = await authProvider.userData!['name'];
-    email = await authProvider.userData!['email'];
+    name = await authProvider.userData!['name']!;
+    email = await authProvider.userData!['email']!;
     setState(() {});
   }
 
@@ -43,13 +44,21 @@ class _ProfileState extends State<Profile> {
                     border: Border.all(
                         color: Theme.of(context).primaryColor, width: 1.5),
                     borderRadius: BorderRadius.circular(8)),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: AssetImage("assets/default_dp.jpg"),
+                child: InkWell(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => UpdateProfile(),
+                    ),
                   ),
-                  title: Text(name.toString()),
-                  subtitle: Text(email.toString()),
-                  trailing: Icon(Icons.arrow_forward_ios),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: AssetImage("assets/default_dp.jpg"),
+                    ),
+                    title: Text(name.toString()),
+                    subtitle: Text(email.toString()),
+                    trailing: Icon(Icons.arrow_forward_ios),
+                  ),
                 ),
               ),
               SizedBox(height: 8),
