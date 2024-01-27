@@ -110,7 +110,7 @@ class _DetailsTaskState extends State<DetailsTask> {
               SizedBox(height: 16),
               InkWell(
                 onTap: () async {
-                  bool deleteConfirmed = await showDialog(
+                  showDialog(
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
@@ -120,12 +120,26 @@ class _DetailsTaskState extends State<DetailsTask> {
                         actions: [
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context).pop(false);
+                              Navigator.of(context).pop();
                             },
                             child: Text("Cancel"),
                           ),
                           TextButton(
-                            onPressed: () {
+                            onPressed: () async {
+                              bool result =
+                                  await TaskServices().deleteTask(widget.id);
+
+                              if (result) {
+                                showSnackbar(context, "Task Deleted");
+                                Navigator.pop(context);
+
+                                taskNotifier.setShouldReload(true);
+                              } else {
+                                showSnackbar(
+                                  context,
+                                  "Something went wrong, please try again",
+                                );
+                              }
                               Navigator.of(context).pop();
                             },
                             child: Text("Delete"),
@@ -134,22 +148,6 @@ class _DetailsTaskState extends State<DetailsTask> {
                       );
                     },
                   );
-
-                  if (deleteConfirmed == true) {
-                    bool result = await TaskServices().deleteTask(widget.id);
-
-                    if (result) {
-                      showSnackbar(context, "Task Deleted");
-                      Navigator.pop(context);
-
-                      taskNotifier.setShouldReload(true);
-                    } else {
-                      showSnackbar(
-                        context,
-                        "Something went wrong, please try again",
-                      );
-                    }
-                  }
                 },
                 child: SvgPicture.asset("assets/delete_task.svg"),
               ),
