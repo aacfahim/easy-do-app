@@ -44,7 +44,9 @@ class _ProfileState extends State<Profile> {
                         color: Theme.of(context).primaryColor, width: 1.5),
                     borderRadius: BorderRadius.circular(8)),
                 child: ListTile(
-                  leading: CircleAvatar(),
+                  leading: CircleAvatar(
+                    backgroundImage: AssetImage("assets/default_dp.jpg"),
+                  ),
                   title: Text(name.toString()),
                   subtitle: Text(email.toString()),
                   trailing: Icon(Icons.arrow_forward_ios),
